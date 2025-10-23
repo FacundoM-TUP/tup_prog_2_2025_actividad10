@@ -56,5 +56,46 @@ namespace Actividad._10
                 nodo = nodo.Next;
             }
         }
+
+        private void FormPrincipal_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lsbVerSolicitudesImportadas_SelectedValueChanged(object sender, EventArgs e)
+        {
+            Solicitud seleccionada = lsbVerSolicitudesImportadas.SelectedItem as Solicitud;
+
+            if (seleccionada != null)
+            {
+                lbSolicitudSeleccionada.Text = seleccionada.ToString();
+            }
+        }
+
+        private void btnConfirmarAtencion_Click(object sender, EventArgs e)
+        {
+            Solicitud seleccionada = lsbVerSolicitudesImportadas.SelectedItem as Solicitud;
+
+            if (seleccionada != null )
+            {
+                centro.Atender(seleccionada);
+
+                VerSolicitudesPendiente();
+                VerSolicitudesAAtender();
+
+                lsbVerSolicitudesImportadas.SelectedItem = null;
+                lbSolicitudSeleccionada.Text = "Seleccione un registro";
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar una solicitud para atender.");
+            }
+        }
+        protected void VerSolicitudesAAtender()
+        {
+            lsbColaSolicitudesAAtender.Items.Clear();
+
+            lsbColaSolicitudesAAtender.Items.AddRange(centro.VerDescripcionColaAtencion());
+        }
     }
 }
